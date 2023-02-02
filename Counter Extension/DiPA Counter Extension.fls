@@ -1,7 +1,7 @@
-PWD C:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Extension
+PWD C:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Counter Extension
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Extension\extensions.tex
-OUTPUT extensions.log
+INPUT c:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Counter Extension\DiPA Counter Extension.tex
+OUTPUT DiPA Counter Extension.log
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
@@ -535,10 +535,10 @@ INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
-INPUT .\extensions.aux
-INPUT extensions.aux
-INPUT extensions.aux
-OUTPUT extensions.aux
+INPUT .\DiPA Counter Extension.aux
+INPUT DiPA Counter Extension.aux
+INPUT DiPA Counter Extension.aux
+OUTPUT DiPA Counter Extension.aux
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -609,13 +609,11 @@ INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
-OUTPUT extensions.pdf
+OUTPUT DiPA Counter Extension.pdf
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti12.tfm
-INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti8.tfm
-INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti7.tfm
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
@@ -636,11 +634,11 @@ INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cme
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs10.tfm
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs7.tfm
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs5.tfm
-INPUT .\extensions.bbl
-INPUT extensions.bbl
-INPUT .\extensions.bbl
-INPUT extensions.bbl
-INPUT extensions.aux
+INPUT .\DiPA Counter Extension.bbl
+INPUT DiPA Counter Extension.bbl
+INPUT .\DiPA Counter Extension.bbl
+INPUT DiPA Counter Extension.bbl
+INPUT DiPA Counter Extension.aux
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
@@ -649,12 +647,16 @@ INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\c
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
+INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr6.pfb
+INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr6.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr7.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr7.pfb
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr8.pfb
