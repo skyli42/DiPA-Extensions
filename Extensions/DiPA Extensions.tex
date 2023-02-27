@@ -21,7 +21,6 @@
 \newcommand{\gaguard}{n<N \text{ AND } \texttt{insample} \geq \texttt{x}}
 \newcommand{\laguard}{n<N\text{ AND }\texttt{insample} < \texttt{x}}
 \providecommand{\floor}[1]{ \lfloor #1 \rfloor }
-\newcommand{\dist}{\text{dist}}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lemma}[thm]{Lemma}
 \newtheorem{prop}[thm]{Proposition}
@@ -31,7 +30,7 @@
 \newtheorem{examp}[thm]{Example}
 \newtheorem{conj}[thm]{Conjecture}
 \newtheorem{rmk}[thm]{Remark}
-
+\newtheorem{clm}[thm]{Claim}
 
 \newcommand{\isto}{\stackrel{\sim}{\smash{\longrightarrow}\rule{0pt}{0.4ex}}} 
 \graphicspath{ {./} }
@@ -42,9 +41,9 @@
 
 \begin{document}
 
-\section{DiPA*}
-
-\begin{defn} Fix parameters $\epsilon, N$. Let $C$ be the guard conditions $\{n<N,\texttt{true},$ $\gguard, \lguard,$ $\gaguard, \laguard \}$ A \textbf{DiP* automaton} (DiPA*) $\mathcal{A}$ is defined as the tuple $\mathcal{A} = (Q, \Sigma, \Gamma, q_0, X, P, \delta)$, where:
+\section{DiPA with a Counter}
+\subsection{DiPA* and Definitions}
+\begin{defn} Fix parameters $\epsilon, N$. Let $C$ be the guard conditions $\{n<N,\texttt{true}$, $\gguard$,$\lguard$, $\gaguard, \laguard, n\geq N\}$ A \textbf{DiP* automaton} (DiPA*) $\mathcal{A}$ is defined as the tuple $\mathcal{A} = (Q, \Sigma, \Gamma, q_0, X, P, \delta)$, where:
 \begin{itemize}
 	\item $Q = $ finite set of states; partitioned into input states $Q_{in}$ and non-input states $Q_{non}$
 	\item $\Sigma$ is the input alphabet (taken to be $\RR$)
@@ -59,11 +58,12 @@
 There are certain conditions that $\delta$ must satisfy; these are almost all the same as the restrictions on transition functions of DiPA, but with some slight modifications and one major addition (marked in \textcolor{blue}{blue}):
 \begin{itemize}
 	\item \textbf{Determinism:} 
-	\textcolor{blue}{
-		If $\delta(q, \texttt{true})$ is defined, then $\delta(q, n<N)$ cannot be defined and vice versa. 
-	Similarly, at most one of $\delta(q, \gguard)$ and $\delta(q, \gaguard)$ can be defined and at most one $\delta(q, \lguard)$ and $\delta(q, \laguard)$ can be defined.} For any state $q\in Q$, if $\delta(q, \texttt{true})$ is defined, then $\delta(q,$ $\gguard)$ and $\delta(q, \lguard$) are not defined. 
+	\textcolor{blue}{If $\delta(q, \texttt{true})$ is defined, then no other transitions out of $q$ can be defined. Additionally, at most one of $\delta(q,$ $\gguard)$ and }
 	
-	\textcolor{blue}{Similarly, if $\delta(q, n<N)$ is defined, then $\delta(q, \gaguard)$ and $\delta(q, \laguard)$ are not defined. Finally, if $\delta(q, n\geq N)$ is defined, then $\delta(q, \texttt{true})$, $\delta(q, \gguard)$ and $\delta(q, \lguard)$ are not defined.} 
+	\textcolor{blue}{$\delta(q,$$\gaguard)$ can be defined and at most one of $\delta(q,$ $\lguard)$ and $\delta(q,$ $\laguard)$ can be defined.} 
+	
+	\textcolor{blue}{If $\delta(q, n<N)$ is defined, then $\delta(q, \gaguard)$ and\\$\delta(q, \laguard)$ are not defined. Additionally, if any of $\delta(q, n<N)$, $\delta(q, \laguard)$, or $\delta(q, \gaguard)$ are defined, then $\delta(q, n \geq N)$ must be defined as well. 
+	Finally, if $\delta(q, n\geq N)$ is defined, then $\delta(q, \texttt{true})$, $\delta(q, \gguard)$ and $\delta(q, \lguard)$ are not defined.} 
 
 	\textcolor{blue}{For the sake of convenience, from now on, we will use $\texttt{true}$ to refer to both guards $\texttt{true}$ and $n < N$, $\gguard$ to refer to both $\gguard$ and $\gaguard$, and $\lguard$ to refer to both $\lguard$ and $\laguard$.}
 
@@ -73,13 +73,13 @@ There are certain conditions that $\delta$ must satisfy; these are almost all th
 
 	\item \textbf{Non-input transition:} From any $q\in Q_{non}$, if $\delta(q, c)$ is defined, then $c=\texttt{true}$.
 
-	\item \textcolor{blue}{\textbf{Control Flow Separation:} Consider the underlying graph $G$ of $\mathcal{A}$. For all states $q\in Q$, if $\delta(q, n\geq N) = (q', o, b, i)$, let $G'$ be the graph of $G$ with the edge corresponding to the transition with guard $n\geq N$ from $q$ removed. Then $q$ and $q'$ must be in different connected components of $G'$}.
+	\item \textcolor{blue}{\textbf{Control Flow Separation:} Consider the underlying graph $G$ of $\mathcal{A}$. For all states $q\in Q$, if $\delta(q, n\geq N) = (q', o, b, i)$,$q$ and $q'$ must be in different strongly connected components of $G$}.
 
 \end{itemize}
 
-Note that the \textbf{control flow separation} condition implies that no cycle in $G$ can contain an edge that corresponds to a transition with guard $n\geq N$. In addition, determinism combined with control flow separation imply that no two transitions (i.e. transitions with different guards) can be from some state $q$ to the same state $q'$. 
+Note that the \textbf{control flow separation} condition implies that no cycle in $G$ can contain an edge that corresponds to a transition with guard $n\geq N$. In addition, determinism combined with control flow separation imply that no two transitions (i.e.\ transitions with different guards) can be from some state $q$ to the same state $q'$. 
 
-\subsection{Path Probabilities}
+\subsubsection{Path Probabilities}
 
 
 \begin{defn} (summarized from~\cite{chadhaLinearTimeDecidability2021})
@@ -114,7 +114,7 @@ If $o_0 \in \Gamma$, then $\PP[\epsilon, N, x, n, \rho] = \PP[\epsilon, N, x, n+
 
 \textbf{Case 2:} $n < N$ and $c = n\geq N$. Then we define $\PP[\epsilon, N, x, n, \rho] = 0$.
 
-Every case for other guards is exactly analogous to their counterpart definitions in \cite{chadhaLinearTimeDecidability2021}, but in general where $\PP[\epsilon,N, x, n, \texttt{tail}(\rho)]$ is referenced in $\cite{chadhaLinearTimeDecidability2021}$, $\PP[\epsilon, N,x, n+i ,\texttt{tail}(\rho)]$ should be used instead.
+Every case for other guards is exactly analogous to their counterpart definitions in~\cite{chadhaLinearTimeDecidability2021}, but in general where $\PP[\epsilon,N, x, n, \texttt{tail}(\rho)]$ is referenced in $\cite{chadhaLinearTimeDecidability2021}$, $\PP[\epsilon, N,x, n+i ,\texttt{tail}(\rho)]$ should be used instead.
 
 Because of the initialization condition, for paths starting at the start state of $\mathcal{A}$, the starting value of $x$ is irrelevant. In addition, since $n$ is always initialized to 0, we will abuse notation for paths $\rho$ that start at the start state to write $\PP[\epsilon, N, \rho]$ to represent $\PP[\epsilon, N, x, 0, \rho]$.
 
@@ -131,7 +131,9 @@ Most notably, given a definition of path probabilities, we can define what it me
 
 
 
-\section{Violations of Differential Privacy}
+\subsection{Violations of Differential Privacy}
+
+NOTE: this section is obsolete now, remove
 
 \begin{defn}
 	An \textbf{abstract path} in a DiPA* is a sequence of states and associated outputs $q_0\sigma_0q_1\sigma_1\cdots q_{n-1}\sigma_{n-1}q_n$. 
@@ -174,7 +176,7 @@ Because there are no increment transitions in $C$, $\forall 0\leq i\leq \ell n$,
 \end{proof}
 
 
-\begin{defn} (from \cite{chadhaLinearTimeDecidability2021}) A cycle $\rho$ of a DiPA* $\mathcal{A}$ is an $\texttt{L}$-cycle (respectively, $\texttt{G}$-cycle) if there is an $i < |\rho|$ such that $\texttt{guard}(\rho[i]) = \lguard$ (respectively $\texttt{guard}(\rho[i]) = \gguard$).
+\begin{defn} (from~\cite{chadhaLinearTimeDecidability2021}) A cycle $\rho$ of a DiPA* $\mathcal{A}$ is an $\texttt{L}$-cycle (respectively, $\texttt{G}$-cycle) if there is an $i < |\rho|$ such that $\texttt{guard}(\rho[i]) = \lguard$ (respectively $\texttt{guard}(\rho[i]) = \gguard$).
 \end{defn}
 
 \begin{defn} (from~\cite{chadhaLinearTimeDecidability2021}) A path $\rho$ of a DiPA $\mathcal{A}^*$ is an $\texttt{AL}$-path (respectively, $\texttt{AG}$-path) if all assignment transitions on $\rho$ have guard $\lguard$ (respectively, $\gguard$).
@@ -190,7 +192,7 @@ Because there are no increment transitions in $C$, $\forall 0\leq i\leq \ell n$,
 
 
 \begin{defn}
-	A pair of cycles $(C, C')$ is a feasible unbounded leaking pair of cycles if both $C$ and $C'$ are feasible and unbounded cycles, $C$ is an $\texttt{L}$-cycle (respectively, $\texttt{G}$-cycle), $C'$ is a $\texttt{G}$-cycle (respectively $\texttt{L}$-cycle), and there exists an $\texttt{AL}$-path (respectively, $\texttt{AG}$-path) $\rho = a_1 a_2\cdots a_k$ from $C$ to $C'$ (i.e. such that $a_1\in C$ and $a_k \in C'$) such that all of the following hold:
+	A pair of cycles $(C, C')$ is a feasible unbounded leaking pair of cycles if both $C$ and $C'$ are feasible and unbounded cycles, $C$ is an $\texttt{L}$-cycle (respectively, $\texttt{G}$-cycle), $C'$ is a $\texttt{G}$-cycle (respectively $\texttt{L}$-cycle), and there exists an $\texttt{AL}$-path (respectively, $\texttt{AG}$-path) $\rho = a_1 a_2\cdots a_k$ from $C$ to $C'$ (i.e.\ such that $a_1\in C$ and $a_k \in C'$) such that all of the following hold:
 	\begin{enumerate}
 		\item Either there are no $n \geq N$ transitions on $\rho$ or $C'$ has no exit state.
 		\item Either there exists some path $\tau$ from the start state $q_0$ of $\mathcal{A}$ to $a_k$ that includes $a_1$ such that there are at most $N-1$ increment transitions on $\tau$ or $C'$ has no exit state.
@@ -210,7 +212,7 @@ Because there are no increment transitions in $C$, $\forall 0\leq i\leq \ell n$,
 \end{prop}
 
 \begin{proof}
-	As with proposition 2.4, we reduce this case to a similar case in a DiPA.
+	As with proposition 2.4, we reduce this case to a similar case in a DiPA.\@
 
 	Because of proposition 2.4, we can assume that $\mathcal{A}$ does not have a leaking cycle. Assume that $\mathcal{A}$ has a feasible unbounded pair of leaking cycles $(C, C')$ such that $C$ is reachable from the start state of $\mathcal{A}$. Suppose that $C$ is an $\texttt{L}$-cycle and $C'$ is a $\texttt{G}$-cycle. Let $\rho = a_1\cdots a_m$ be an $\texttt{AL}$-path from $C$ to $C'$. The proof of the symmetric case is analogous.
 
@@ -231,7 +233,7 @@ Because there are no increment transitions in $C$, $\forall 0\leq i\leq \ell n$,
 		\item For all $j, v+n_1\ell\leq j <w$, if $t_j$ is an assignment transition then $c_j =$\\$\gguard$ 
 	\end{enumerate}
 
-	Intuitively, $\forall\ell>0,\eta_\ell$ is a path that begins at the start state, reaches $C$, traverses $C$ $\ell$ times, then traverses an $\texttt{AG}-$path to $C'$ before traversing $C'$ $\ell$ times. If such a path exists in $\mathcal{A}$, then as in proposition 2.5, the adjacent input sequences $\alpha(\ell)$ and $\beta(\ell)$ from lemma 7 of \cite{chadhaLinearTimeDecidability2021} serve as witnesses to the violation of differential privacy.
+	Intuitively, $\forall\ell>0,\eta_\ell$ is a path that begins at the start state, reaches $C$, traverses $C$ $\ell$ times, then traverses an $\texttt{AG}-$path to $C'$ before traversing $C'$ $\ell$ times. If such a path exists in $\mathcal{A}$, then as in proposition 2.5, the adjacent input sequences $\alpha(\ell)$ and $\beta(\ell)$ from lemma 7 of ~\cite{chadhaLinearTimeDecidability2021} serve as witnesses to the violation of differential privacy.
 
 
 	Since $C'$ is unbounded, $C'$ must either lack an exit state or an increment transition (or both). 
@@ -303,7 +305,7 @@ The proof of proposition 2.12 is almost identical to the proof of proposition 2.
 \end{proof}
 
 \begin{defn} (adapted from~\cite{chadhaLinearTimeDecidability2021})
-	An feasible unbounded privacy violating lasso is a path $\rho = a_1\cdots a_k$ of length $n$ in a DiPA* $\mathcal{A}$ such that one of the following hold:
+	An feasible unbounded privacy violating lasso is a path $\rho = a_1\to a_2\to \cdots\to a_k$ of length $n$ in a DiPA* $\mathcal{A}$ such that one of the following hold:
 
 	\begin{itemize}
 		\item $\texttt{tail}(\rho)$ is an $\texttt{AG}$-path (respectively, $\texttt{AL}$-path) such that $\texttt{last}(\rho)$ is in a feasible unbounded $\texttt{G}$-cycle (respectively, $\texttt{L}$-cycle) and the 0th transition is an assignment transition that outputs $\texttt{insample}$.
@@ -358,52 +360,95 @@ For a lasso $\rho$, let $C_\rho$ be the cycle associated with\footnote{Hopefully
 \section{Proving Differential Privacy}
 
 \begin{thm} 
-	If a DiPA* is well-formed, then it is differentially private.
+	A DiPA* is well-formed iff it is differentially private.
 \end{thm}
 
 \begin{proof}
 
-
-
 Let $\mathcal{A}^* = (Q, \Sigma, \Gamma, q_0, X^*, P^*, \delta^*)$ be a well-formed DiPA* with parameters $\epsilon$ and $N$. 
 
-Let $G = \{\texttt{true}, n<N, \gguard, \gaguard, \lguard,\laguard \}$ be the set of guard conditions for DiPAs.
+Let $G = \{\texttt{true}, n<N, n\geq N, \gguard, \gaguard, \lguard,\laguard \}$ be the set of guard conditions for DiPA*s.
 
 Construct the DiPA $\mathcal{A} = (Q \times [N], \Sigma, \Gamma\cup \{\phi\}, (q_0, 0), X, P, \delta)$ as follows:
 
-
-
 For each state $q \in Q^*$:
 
-For $g\in G$, if $\delta^*(q, g) = (q', \sigma, \mathbf{b}, x)$ is defined, then for all $k \in [N-1]$, define the transition
+For $g\in G$, if $\delta^*(q, g) = (q', \sigma, \mathbf{b}, x)$ is defined, define $\delta((q, k), g)$ as follows:
+
+\textbf{Case 1: $g \in \{\texttt{true}, \gguard, \lguard\}$}
+
+For all $k \in [N-1]$, define the transitions
+
 \[
 	\delta((q, k), g) = ((q', k+x), \sigma, \mathbf{b})	
 \]
 
-If $\delta^*(q, n\geq N) = (q', \sigma, \mathbf{b}, x)$ is defined, then define the transition \[
-	\delta((q, N), n<N) = ((q', N), \sigma, \mathbf{b})
-\]
-
-Otherwise if $\delta^*(q, g) = (q', \sigma, \mathbf{b}, x)$ is defined, then define the transition
+and define the transition
 \[
-	\delta((q, N), g) = ((q', N), \sigma, \mathbf{b})
+	\delta((q, N), g) = ((q', N), \sigma, \mathbf{b})	
 \]
 
-All other transitions are undefined. Note that we need to separate out the $k = N$ case to satisfy the condition of determinism.
+\textbf{Case 2: $g = n \geq N$}
+
+We define the transition 
+\[
+	\delta((q, N), \texttt{true}) = ((q', N), \sigma, \mathbf{b})
+\]
+
+\textbf{Case 3: $g = n < N$}
+
+For all $k \in [N-1]$, define the transitions
+\[
+	\delta((q, k), \texttt{true}) = ((q', k+x), \sigma, \mathbf{b})	
+\]
+
+\textbf{Case 4: $g = \laguard $}
+
+For all $k \in [N-1]$, define the transitions
+\[
+	\delta((q, k), \lguard) = ((q', k+x), \sigma, \mathbf{b})	
+\]
+
+\textbf{Case 5: $g = \gaguard $}
+
+For all $k \in [N-1]$, define the transitions
+\[
+	\delta((q, k), \gguard) = ((q', k+x), \sigma, \mathbf{b})	
+\]
 
 Intuitively, at state $(q, k)$ in $\mathcal{A}$, $k$ will track the value of $n$ in $\mathcal{A}^*$ (since everything above $N$ is treated the same, we compress all of those values together).
 
 For each state $(q, k)\in Q$, let $P((q, k)) = P^*(q)$.
 
+\begin{clm}
+	$\mathcal{A}$ is a valid DiPA.
+\end{clm}
+\begin{proof}
+	To be a valid DiPA, $\delta$ must satisfy four conditions: determinism, output distinction, initialization, and non-input transition. 
 
-\begin{lemma}
-	If $\mathcal{A}^*$ is well-formed, then $\mathcal{A}$ is well-formed.	
+	\textbf{Determinism:} Consider some state $(q, k)\in Q$ and suppose that $\delta((q, k), \texttt{true})$ is defined. Then either $\delta^*(q, \texttt{true})$ is defined, $\delta^*(q, n <N)$ and $k < N$, or $\delta^*(q, n\geq N)$ is defined and $k = N$. By the condition of determinism for DiPA*s, if $\delta^*(q, \texttt{true})$, then no other transitions from $q$ in $\mathcal{A}^*$ are defined. Thus, neither $\delta((q, k), \lguard)$ or $\delta((q, k), \gguard)$ can be defined in $\mathcal{A}$.
+
+	If $\delta^*(q, n < N)$ is defined and $k < N$, then similarly none of $\delta^*(q, \gaguard)$, $\delta^*(q, \laguard)$, $\delta^*(q, \texttt{true})$, $\delta^*(q, \lguard)$, or $\delta^*(q, \gguard)$ can be defined. Additionally, since $ n < N$, there is no additional transition from $q$ corresponding to an $n\geq N$ guard in $\mathcal{A}^*$, so neither $\delta((q, k), \lguard)$ or $\delta((q, k), \gguard)$ can be defined in $\mathcal{A}$.
+
+	Similarly, if $\delta^*(q, n \geq N)$ is defined and $k = N$, no other transitions from $q$ can be defined in $\mathcal{A}$.
+
+	\textbf{Output distinction:} This follows immediately from the output distinction condition of DiPA*s.
+
+	\textbf{Initialization:} By the initialization condition of DiPA*s, the initial state $q_0$ has only one outgoing transition of the form $\delta(q_0, \texttt{true}) = (q, o, \texttt{true}, i)$ for $i\in \{0, 1\}$. Thus, there is only one transition out of $(q_0, 0)$ in $\mathcal{A}$, with guard $\texttt{true}$.
+
+	\textbf{Non-input transition:} Since input transitions are preserved from $\mathcal{A}^*$ in the construction of $\mathcal{A}$, this follows immediately from the condition of non-input transition for DiPA*s.
+\end{proof}
+
+
+
+\begin{lemma}\label{wellformedequiv}
+	If $\mathcal{A}^*$ is well-formed if and only if $\mathcal{A}$ is well-formed.	
 \end{lemma}
 
 \begin{proof}
 	We will prove this using the following lemma: 
 	\begin{lemma}
-		If there exists a reachable cycle $C = (a_0, k_0)\to (a_1, k_1)\to \cdots \to (a_{m-1}, k_{m-1})\to (a_0, k_0)$ in $\mathcal{A}$, then there exists a reachable unbounded feasible cycle $C^* = a_0\to a_1\to \cdots a_{m-1}\to a_0$ in $\mathcal{A}^*$.
+		If there exists a reachable cycle $C = (a_0, k_0)\to (a_1, k_1)\to \cdots \to (a_{m-1}, k_{m-1})\to (a_0, k_0)$ in $\mathcal{A}$ if and only if there exists a reachable unbounded feasible cycle $C^* = a_0\to a_1\to \cdots a_{m-1}\to a_0$ in $\mathcal{A}^*$.
 	\end{lemma}
 
 	\begin{proof}
@@ -418,6 +463,15 @@ For each state $(q, k)\in Q$, let $P((q, k)) = P^*(q)$.
 
 		Suppose that $C^*$ is infeasible for the sake of contradiction. Then $k_0 = k_1 = \cdots k_{m-1} = n$ and there is some exit state $s\in C^*$ such that $\delta^*(s, n\geq N) = (s', \sigma, \mathbf{b}, x)$. Note that because of determinism, there is exactly one transition $(s, n)\to (s', n)$ in $G$ out of the state $(s, n)$. 
 		Therefore, $(s', n)$ must also be in the cycle $C$, which implies $s'$ must be in the cycle $C^*$. However, this contradicts control flow separation, since then $s$ and $s'$ would be in the same component of $G_{\mathcal{A}^*}$, even with the edge corresponding to the $n\geq N$ transition removed. Thus, $C^*$ is feasible.
+
+		Now let $C^* = a_0 \to \ldots \to a_m \to a_0$ be an reachable unbounded feasible cycle in $\mathcal{A}^*$. Because $C^*$ is feasible, there exists some path from the start state $q_0$ of $\mathcal{A}^*$ to $a_0$ such that $n < N$ at $a_0$. Let $k_0$ be the minimum such value of $n$ at $a_0$. Then consider the sequence of states $(a_0, k_0), (a_1, k_1), \ldots, (a_m, n_m), (a_0, k_0)$ in $\mathcal{A}$ such that $k_i$ is defined as follows:
+
+		Let $(a_{i-1}, c, a_i, o, b, j)$ represent the transition from $a_{i-1}$ to $a_i$ in $\mathcal{A}^*$. Then for $i > 0, k_i = k_{i-1} + j$. Note that for all $1 \leq i\leq m$, there exists a transition $(a_{i-1}, k_{i-1}) \to (a_i, k_i)$ by construction.
+
+		Suppose that there is no increment transition in $C^*$. Then $\forall 1\leq i \leq m, k_i = k_{i-1}$. Thus, $k_m = k_0$ and there exists a transition $(a_m, k_0)\to (a_0, k_0)$ in $\mathcal{A}$. Thus, the cycle $C = (a_0, k_0)\to (a_1, k_1)\to \ldots\to (a_m, k_m) \to (a_0, k_0)$ is a cycle in $\mathcal{A}$.
+
+		Now suppose that $C^*$ has an increment transition but no exit state. Then the state $(a_0, N)$ is reachable in $\mathcal{A}$. To see this, consider the path $(a_0, k_0)\to (a_1, k_1)\to \ldots\to (a_m, k_m) \to (a_0, k'_0)$ in $\mathcal{A}$. Since $C^*$ has an increment transition, $k'_0 > k_0$. 
+		Since $C^*$ has no exit state and $k_i$ is bounded above by $N$, this means that there exists a path from $(q_0, 0)$ to $(a_0, k_0)$ to $(a_0, N)$. Then again because $C^*$ has no exit state, $C = (a_0, N)\to (a_1, N)\to \ldots\to (a_m, N) \to (a_0, N)$ is a cycle in $\mathcal{A}$.
 	\end{proof}
 
 	Additionally, observe that if $(q, k)\to (q', k')$ is an assignment transition in $\mathcal{A}$, $q \to q'$ is also an assignment transition in $\mathcal{A}^*$. 
@@ -425,20 +479,242 @@ For each state $(q, k)\in Q$, let $P((q, k)) = P^*(q)$.
 
 \end{proof}
 
-\begin{lemma}
-	If $\mathcal{A}$ is $wt(\mathcal{A})$-DP, then $\mathcal{A}^*$ is $wt(\mathcal{A})$-DP.
+\begin{lemma}\label{pathequivalence}
+	Let $\Psi = \{\rho: \rho$ is a path in $\mathcal{A}\}$ and $\Psi^* = \{\rho^*: \rho^*$ is a valid path in $\mathcal{A}^*\}$ be the sets of paths in $\mathcal{A}$ and $\mathcal{A}^*$, respectively. There exists a bijection $f: \Psi\to \Psi^*\times [N]$ such that $\forall x, \forall \rho\in \Psi,$ if $f(\rho) = (\rho^*, n), \PP[\epsilon, x, \rho] = \PP[\epsilon, N, x, n, \rho^*]$.
 \end{lemma}
 
-
 \begin{proof}
-	Let $\rho^* = q_0q_1,...,q_{m-1}$ be a path of length $m$ in $\mathcal{A}^*$. Let $n_i$ be the value of the variable $n$ in $\mathcal{A}^*$ at state $q_i$ (so e.g. $n_0 = 0$). Then $\rho = (q_0, n_0)(q_1, n_1)...(q_{m-1}, n_{m-1})$ is a path in $\mathcal{A}$. This follows immediately from the construction of $\mathcal{A}$. In addition, $\PP[\epsilon, \rho] = \PP[\epsilon, N, \rho^*]$. 	
+	Let $\rho = (q_1, n_1)\to(q_2, n_2)\to \ldots \to (q_m, n_m)$ be a path in $\mathcal{A}$. Then let $f(\rho) = (q_1\to q_2\ldots \to q_m, n_1)$ such that $\texttt{inseq}(q_1\to q_2\ldots \to q_m) = \texttt{inseq}(\rho)$. Note that $\texttt{outseq}(q_1\to q_2\ldots \to q_m) = \texttt{outseq}(\rho)$ by output determinism.
 	
-	This also follows immediately by induction on $|\rho|$.
+	By construction\footnote{Does this need to be elaborated on?}, $\rho^* = q_1\to\ldots\to q_m$ must be a valid path in $\mathcal{A}^*$ if the value of the variable $n$ in $\mathcal{A}^*$ is $n_1$ at $q_1$.
+
+	$f$ is injective: Let $\rho = (q_1, n_1)\to \ldots \to (q_m, n_m), \rho' = (q'_1, n'_1)\to \ldots \to (q'_m, n'_m)$ be two paths in $\mathcal{A}$ such that $\rho \neq \rho'$. If $|\rho| \neq |\rho'|, f(\rho) \neq f(\rho')$ clearly. 
+	Suppose $|\rho| = |\rho'|$ and consider the smallest $i$ such that either $n_i \neq n'_i$ or $q_i \neq q'_i$. If $q_i \neq q'_i$, then clearly $f(\rho) = (q_1\to\ldots\to q_i\to \ldots \to q_m, n_1)\neq (q_1\to\ldots\to q'_i\to \ldots \to q_m, n'_1) = f(\rho')$. 
+	Otherwise, if $q_i = q'_i$ and $n_i \neq n'_i$, note that $i = 1$: there can only be one transition from $q_{i-1}\to q_{i}$ in $\mathcal{A}^*$ and because $i$ is the smallest such $i$, $q_{i-1} = q'_{i-1}$. Thus if $i > 1$, this would mean that $n_i = n'_i$, which is impossible. So $f(\rho) = (q_1\to\ldots\to q_m, n_1) \neq (q'_1\to\ldots\to q'_m, n'_1) = f(\rho')$.
+
+	$f$ is surjective: Let $(\rho^*, n_1) = (q_1\to\ldots \to q_m, n_1) \in \Psi^* \times [N]$. Let $n_i$ be the value of $n$ in $\mathcal{A}^*$ after starting at state $q_1$ with $n=n_1$ and traversing each state $q_i$ in order. Then $\rho = (q_1, n_1)\to \ldots (q_m, n_m)$ is a path in $\mathcal{A}$ by construction and clearly $f(\rho) = (\rho^*, n_1)$.
+
+	Fix $x\in \RR$ and $\rho \in \Psi$. Let $f(\rho) = (\rho^*, n_1)$. We will show that $\PP[\epsilon, x, \rho] = \PP[\epsilon, N, x, n_1, \rho^*]$.
+
+	This follows by induction on $|\rho^*|$:
+
+	Suppose $|\rho^*| = 0$. Then $\PP[\epsilon, x_0, \rho] = \PP[\epsilon, N, x_0, n_0, \rho^*] = 1$.
+
+	Now suppose $|\rho^*| = k > 0$ and that for all $|\rho'^{*}|<k$, $\PP[\epsilon, x_0, \rho'] = \PP[\epsilon, N, x_0, n_0, \rho'^{*}]$.
+
+	Let $c_0$ be the guard of the first transition $q_0 \to q_1$ in $\rho^* = q_0q_1\cdots q_{m-1}$. So $\delta^*(q_0, c_0) = (q_1, \sigma, b, i)$.
+
+		
+	Let $\nu = \mu + a_0$, where $a_0$ is the first input value read. If $o_0 = (y, v, w)$ for $y\in \{\texttt{insample}, \texttt{insample'}\}$, then let \begin{align*}
+		k &= \int_{v}^{w}\frac{d\epsilon}{2}e^{-d\epsilon|z-\mu-a_0|}dz\\
+		k' &= \int_v^w\frac{d'\epsilon}{2}e^{-d'\epsilon|z-\mu'-a_0|}dz
+	\end{align*}
+
+	\textbf{Case 1: $c = n < N$}
+
+	Note that $ n_0 < N$ since $\rho^*$ is a valid path.
+	
+	By construction, $\delta((q_0, n_0), \texttt{true}) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0 + i$. Let $x'$ be the value of $x$ at $q_1$ in $\mathcal{A}^*$. Since $\mathcal{A}^*$ assigns to $x$ iff $\mathcal{A}$ does, $x'$ is also the value of $x$ at $(q_1, n_1)$ in $\mathcal{A}$.
+
+	Since $n_0 < N$, by the induction hypothesis
+		\[
+			\PP[\epsilon, N, x, n_0, \rho^*] = \PP[\epsilon, N, x', n_1, \texttt{tail}(\rho^*)] = \PP[\epsilon, x', \texttt{tail}(\rho)] = \PP[\epsilon, x, \rho]
+		\]
+
+	\textbf{Case 2: $c = \texttt{true}$}
+
+	As in case 1, by construction, $\delta((q_0, n_0), \texttt{true}) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0 + i$. Let $x'$ be the value of $x$ at $q_1$ in $\mathcal{A}^*$. Since $\mathcal{A}^*$ assigns to $x$ iff $\mathcal{A}$ does, $x'$ is also the value of $x$ at $(q_1, n_1)$ in $\mathcal{A}$.
+
+	Then by the induction hypothesis
+		\[
+			\PP[\epsilon, N, x, n_0, \rho^*] = \PP[\epsilon, N, x', n_1, \texttt{tail}(\rho^*)] = \PP[\epsilon, x', \texttt{tail}(\rho)] = \PP[\epsilon, x, \rho]
+		\]
+
+	\textbf{Case 3: $c = n\geq N$}
+
+	Note that $ n_0 \geq N$ since $\rho^*$ is a valid path.
+	
+	By construction, $\delta((q_0, n_0), \texttt{true}) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0$. Let $x'$ be the value of $x$ at $q_1$ in $\mathcal{A}^*$. Since $\mathcal{A}^*$ assigns to $x$ iff $\mathcal{A}$ does, $x'$ is also the value of $x$ at $(q_1, n_1)$ in $\mathcal{A}$.
+
+	Since $n_0 \geq N$, by the induction hypothesis
+		\[
+			\PP[\epsilon, N, x, n_0, \rho^*] = \PP[\epsilon, N, x', n_1, \texttt{tail}(\rho^*)] = \PP[\epsilon, x', \texttt{tail}(\rho)] = \PP[\epsilon, x, \rho]
+		\]
+
+	\textbf{Case 4: $c = \gaguard$}
+
+	Since $\rho^*$ is valid, $n_0 < N$. 
+
+	By construction, $\delta((q_0, n_0), \gguard) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0+i$. 
+
+	Suppose $b = \texttt{true}$ (i.e. $\texttt{trans}(q_0)$ is an assignment transition), then:
+
+	If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, since $n_0 < N$, 
+		\begin{align*}
+			\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+			&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+			&= \PP[\epsilon, x, \rho]
+		\end{align*}
+	where $d, \nu, k'$ are defined as in section 1.1.
+	
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	Now suppose that $b = \texttt{false}$. If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, since $n_0 < N$, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]\\
+		&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	where $d, \nu, k'$ are defined as in section 1.1\footnote{todo: fix these}.
+
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+	where $d, \nu, k', \ell$ are defined as in section 1.1.
+
+	\textbf{Case 5: $c = \laguard$}
+
+	Since $\rho^*$ is valid, $n_0 < N$. 
+
+	By construction, $\delta((q_0, n_0), \lguard) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0+i$. 
+
+	Suppose $b = \texttt{true}$. Then if $\sigma$ is of the form $(\texttt{insample'}, v, w)$, since $n_0 < N$, 
+		\begin{align*}
+			\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_{-\infty}^x\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+			&= k'\left(\int_{-\infty}^x\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+			&= \PP[\epsilon, x, \rho]
+		\end{align*}
+	where $d, \nu, k'$ are defined as in section 1.1.
+	
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	Now suppose that $b = \texttt{false}$. If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, since $n_0 < N$, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]\\
+		&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	where $d, \nu, k'$ are defined as in section 1.1\footnote{todo: fix these}.
+
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+	where $d, \nu, k', \ell$ are defined as in section 1.1.
+
+	\textbf{Case 6: $c = \gguard$}
+	
+	By construction, $\delta((q_0, n_0), \gguard) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0+i$. 
+
+	Suppose $b = \texttt{true}$ (i.e. $\texttt{trans}(q_0)$ is an assignment transition), then:
+
+	If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, 
+		\begin{align*}
+			\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+			&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+			&= \PP[\epsilon, x, \rho]
+		\end{align*}
+	where $d, \nu, k'$ are defined as in section 1.1.
+	
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	Now suppose that $b = \texttt{false}$. If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]\\
+		&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	where $d, \nu, k'$ are defined as in section 1.1\footnote{todo: fix these}.
+
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\max(x, \ell)}^u\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+	where $d, \nu, k', \ell$ are defined as in section 1.1.
+
+	\textbf{Case 7: $c = \lguard$}
+
+	By construction, $\delta((q_0, n_0), \lguard) = ((q_1, n_1), \sigma, b)$ where $n_1 = n_0+i$. 
+
+	Suppose $b = \texttt{true}$. Then if $\sigma$ is of the form $(\texttt{insample'}, v, w)$, 
+		\begin{align*}
+			\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_{-\infty}^x\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+			&= k'\left(\int_{-\infty}^x\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+			&= \PP[\epsilon, x, \rho]
+		\end{align*}
+	where $d, \nu, k'$ are defined as in section 1.1.
+	
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, N, z, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}\right)\PP[\epsilon, z, \texttt{tail}(\rho)]dz \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	Now suppose that $b = \texttt{false}$. If $\sigma$ is of the form $(\texttt{insample'}, v, w)$, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]\\
+		&= k'\left(\int_x^\infty\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+
+	where $d, \nu, k'$ are defined as in section 1.1\footnote{todo: fix these}.
+
+	Otherwise, 
+	\begin{align*}
+		\PP[\epsilon, N, x, n_0, \rho^*] &= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, N, x, n_1, \texttt{tail}(\rho^*)]dz \\
+		&= \left(\int_{\ell}^{\min(u, x)}\frac{d\epsilon}{2}e^{-d\epsilon|z-\nu|}dz\right)\PP[\epsilon, x, \texttt{tail}(\rho)] \text{ by the induction hypothesis }\\
+		&= \PP[\epsilon, x, \rho]
+	\end{align*}
+	where $d, \nu, k', \ell$ are defined as in section 1.1.
 
 	This is sufficient to prove the lemma. 
+	
 \end{proof}
 
-Lemmas 3.2 and 3.4 together prove the theorem. 
+\begin{lemma}\label{dpequiv}
+	There exists $d > 0$ such that $\mathcal{A}$ is $d\epsilon-$differentially private if and only if $\mathcal{A}^*$ is $d\epsilon$-differentially private.
+\end{lemma}
+
+\begin{proof}
+	Let $f$ be a bijection from paths in $\mathcal{A}$ to tuples of paths in $\mathcal{A}^*$ to $[N]$, as defined in Lemma \ref{pathequivalence}.
+
+	Suppose that $\exists d > 0$ such that $\mathcal{A}$ is $d\epsilon-$differentially private. Then for all equivalent paths $\rho, \rho'$ in $\mathcal{A}$ from the start state $(q_0, 0)$ such that $\texttt{inseq}(\rho)$ and $\texttt{inseq}(\rho')$ are adjacent, $\PP[\epsilon, \rho] \leq e^{d\epsilon} \PP[\epsilon, \rho']$.
+	Consider two equivalent paths $\rho^*, \rho^{\prime *}$ in $\mathcal{A}^*$ from the start state $q_0$ such that $\texttt{inseq}(\rho^*)$ and $\texttt{inseq}(\rho^{\prime *})$ are adjacent. Then $\forall x\in \RR, \PP[\epsilon, N, x, 0, \rho^*] = \PP[\epsilon, x, f^{-1}((\rho^*, 0))] \leq e^{d\epsilon}\PP[\epsilon, x, f^{-1}((\rho^{\prime *}, 0))] = e^{d\epsilon}\PP[\epsilon, N, x, 0, \rho^{\prime *}]$. Thus, $\mathcal{A}^*$ is $d\epsilon$-differentially private.
+
+	Suppose that $\forall d>0, \mathcal{A}$ is not $d\epsilon$-differentially private. So there exists two equivalent paths from the start state $(q_0, 0)$ in $\mathcal{A}$ $\rho = (q_0, 0)\to\ldots\to (q_m, n_m), \rho' = (q_0, 0) \to (q'_m, n'_m)$ in $\mathcal{A}$ such that $\texttt{inseq}(\rho)$ and $\texttt{inseq}(\rho')$ are adjacent, but $\PP[\epsilon, \rho] > e^{d\epsilon}\PP[\epsilon, \rho']$. 
+	
+	Let $f(\rho) = (\rho^*, 0)$ and $f(\rho') = (\rho^{\prime *}, 0)$. Fix $\texttt{inseq}(\rho^*) = \texttt{inseq}(\rho)$ and $\texttt{inseq}(\rho^{\prime *})=\texttt{inseq}(\rho^{\prime})$.
+
+	Then by Lemma \ref{pathequivalence}, $\PP[\epsilon, N, \rho]=\PP[\epsilon, N, x, 0, \rho^*] = \PP[\epsilon, x, \rho] = \PP[\epsilon, \rho] > e^{d\epsilon}\PP[\epsilon, \rho'] = e^{d\epsilon}\PP[\epsilon, x, \rho'] = e^{d\epsilon}\PP[\epsilon, N, x, 0, \rho^{\prime *}]= e^{d\epsilon}\PP[\epsilon, N, \rho^{\prime *}]$. Thus, $\mathcal{A}^*$ is not $d\epsilon$-DP.
+\end{proof}
+
+Lemmas~\ref{wellformedequiv} and~\ref{dpequiv} together prove the theorem. 
 \end{proof}
 
 \begin{cor}	
@@ -454,7 +730,7 @@ Lemmas 3.2 and 3.4 together prove the theorem.
 \end{cor}
 
 \begin{cor}
-	For a DiPA* $\mathcal{A}^*$, the well-formedness of $\mathcal{A}^*$ can be decided efficiently
+	For a DiPA* $\mathcal{A}^*$, the well-formedness of $\mathcal{A}^*$ can be decided efficiently.
 \end{cor}
 \begin{proof}
 	Note that the time it takes is bounded by the cost of creating a DiPA $\mathcal{A}$ from $\mathcal{A}^*$ as in Theorem 3.1. The construction of $\mathcal{A}$ from $\mathcal{A}^*$ causes the number of states to increase by a factor of $N$. 
