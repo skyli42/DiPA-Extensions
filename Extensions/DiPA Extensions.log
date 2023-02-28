@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.12.7)  28 FEB 2023 13:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.12.7)  28 FEB 2023 13:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -481,35 +481,30 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 
 {C:/Users/skyli/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2] [3] [4]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 231.
- [5]
-Overfull \hbox (11.86365pt too wide) in paragraph at lines 297--298
-[]\OT1/cmr/bx/n/12 Lemma 1.19. []\OT1/cmr/m/it/12 If there ex-ists a reach-able cy-cle $\OML/cmm/m/it/12 C \OT1/cmr/m/n/12 = (\OML/cmm/m/it/12 a[]; k[]\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 a[]; k[]\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! [] ! \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 a[]; k[]\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 !
- []
-
-[6] [7] [8] [9] [10] [11] [12] [13] [14]
-Overfull \hbox (3.45624pt too wide) in paragraph at lines 591--591
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 230.
+ [5] [6] [7] [8] [9] [10] [11] [12]
+Overfull \hbox (3.45624pt too wide) in paragraph at lines 545--545
 []\OT1/cmr/bx/n/17.28 Input Ter-mi-na-tor: EDIT I HAVE RE-AL-IZED THAT
  []
 
 
-Overfull \hbox (8.49088pt too wide) in paragraph at lines 610--612
+Overfull \hbox (8.49088pt too wide) in paragraph at lines 564--566
 \OT1/cmr/m/n/12 fined, then there are no tran-si-tions from $\OML/cmm/m/it/12 q$ \OT1/cmr/m/n/12 with guard ei-ther $[] \OMS/cmsy/m/n/12 6\OT1/cmr/m/n/12 = \OML/cmm/m/it/12 ^^\[][] <
  []
 
-[15] (DiPA Extensions.bbl) [16] (DiPA Extensions.aux) ) 
+[13] (DiPA Extensions.bbl) [14] (DiPA Extensions.aux) ) 
 Here is how much of TeX's memory you used:
- 15198 strings out of 475385
- 301423 string characters out of 2776907
- 633316 words of memory out of 3000000
- 36277 multiletter control sequences out of 15000+600000
+ 15196 strings out of 475385
+ 301394 string characters out of 2776907
+ 630294 words of memory out of 3000000
+ 36275 multiletter control sequences out of 15000+600000
  484518 words of font info for 87 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,12n,104p,624b,300s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 100i,12n,104p,624b,278s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\skyli\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/skyli/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on "DiPA Extensions.pdf" (16 pages, 258705 bytes).
+Output written on "DiPA Extensions.pdf" (14 pages, 248069 bytes).
 PDF statistics:
- 142 PDF objects out of 1000 (max. 8388607)
+ 136 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

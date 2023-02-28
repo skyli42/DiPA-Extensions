@@ -210,11 +210,10 @@ For a lasso $\rho$, let $C_\rho$ be the cycle associated with\footnote{Hopefully
 \subsection{Proving Differential Privacy}
 
 \begin{thm}\label{DPtheorem}
-	A DiPA* is well-formed if and only if it is differentially private.
+	Differential privacy can be decided for a DiPA* $\mathcal{A}^*$ in quadratic time.
 \end{thm}
 
 
-\begin{proof}
 
 We prove Theorem~\ref{DPtheorem} by reducing a DiPA* to a DiPA and showing that they are equivalent through a construction similar to the canonical subset/powerset construction for finite automata.
 
@@ -292,51 +291,6 @@ For each state $(q, k)\in Q$, let $P((q, k)) = P^*(q)$.
 	\textbf{Non-input transition:} Since input transitions are preserved from $\mathcal{A}^*$ in the construction of $\mathcal{A}$, this follows immediately from the condition of non-input transition for DiPA*s.
 \end{proof}
 
-
-\begin{lemma}\label{cyclelemma}
-	If there exists a reachable cycle $C = (a_0, k_0)\to (a_1, k_1)\to \cdots \to (a_{m-1}, k_{m-1})\to (a_0, k_0)$ in $\mathcal{A}$ if and only if there exists a reachable unbounded feasible cycle $C^* = a_0\to a_1\to \cdots a_{m-1}\to a_0$ in $\mathcal{A}^*$.
-\end{lemma}
-\begin{proof}
-
-	Let $C = (a_0, k_0)(a_1, k_1)\cdots (a_{m-1}, k_{m-1})(a_0, k_0)$ be a cycle in $\mathcal{A}$. Note that by construction, there must exist a cycle $C^*=a_0a_1\cdots a_{m-1}a_0$ in $\mathcal{A}^*$.
-
-	Additionally note that for any path $(q, k) \to (q', k')$ in $\mathcal{A}$, $k' \geq k$. This implies that $k_0 = k_1 = \cdots = k_{m-1}$. 
-
-	In order for $C^*$ to be bounded, there must be an increment transition between some states $a_i$ and $a_{i+1}$ in $C^*$. However, this would mean that there exists a transition  $(a_i, k_i)\to (a_{i+1}, k_i + 1)$, which is impossible because all $k_i$'s are equal for $ 0\leq i \leq m-1$ and because $\mathcal{A}$ is deterministic. Therefore $C^*$ is unbounded.
-
-	Consider the underlying graphs $G_\mathcal{A}, G_{\mathcal{A}^*}$ of $\mathcal{A}$ and $\mathcal{A}^*$, respectively. Consider some edge $e^* = (q, q')\in G_{\mathcal{A}^*}$; there exists exactly one corresponding edge $e = ((q, k), (q', k'))$ in $G_{\mathcal{A}}$.
-
-	Suppose that $C^*$ is infeasible for the sake of contradiction. Then $k_0 = k_1 = \cdots k_{m-1} = n$ and there is some exit state $s\in C^*$ such that $\delta^*(s, n\geq N) = (s', \sigma, \mathbf{b}, x)$. Note that because of determinism, there is exactly one transition $(s, n)\to (s', n)$ in $G$ out of the state $(s, n)$. 
-	Therefore, $(s', n)$ must also be in the cycle $C$, which implies $s'$ must be in the cycle $C^*$. However, this contradicts control flow separation, since then $s$ and $s'$ would be in the same component of $G_{\mathcal{A}^*}$, even with the edge corresponding to the $n\geq N$ transition removed. Thus, $C^*$ is feasible.
-
-	Now let $C^* = a_0 \to \ldots \to a_m \to a_0$ be an reachable unbounded feasible cycle in $\mathcal{A}^*$. Because $C^*$ is feasible, there exists some path from the start state $q_0$ of $\mathcal{A}^*$ to $a_0$ such that $n < N$ at $a_0$. Let $k_0$ be the minimum such value of $n$ at $a_0$. Then consider the sequence of states $(a_0, k_0), (a_1, k_1), \ldots, (a_m, n_m), (a_0, k_0)$ in $\mathcal{A}$ such that $k_i$ is defined as follows:
-
-	Let $(a_{i-1}, c, a_i, o, b, j)$ represent the transition from $a_{i-1}$ to $a_i$ in $\mathcal{A}^*$. Then for $i > 0, k_i = k_{i-1} + j$. Note that for all $1 \leq i\leq m$, there exists a transition $(a_{i-1}, k_{i-1}) \to (a_i, k_i)$ by construction.
-
-	Suppose that there is no increment transition in $C^*$. Then $\forall 1\leq i \leq m, k_i = k_{i-1}$. Thus, $k_m = k_0$ and there exists a transition $(a_m, k_0)\to (a_0, k_0)$ in $\mathcal{A}$. Thus, the cycle $C = (a_0, k_0)\to (a_1, k_1)\to \ldots\to (a_m, k_m) \to (a_0, k_0)$ is a cycle in $\mathcal{A}$.
-
-	Now suppose that $C^*$ has an increment transition but no exit state. Then the state $(a_0, N)$ is reachable in $\mathcal{A}$. To see this, consider the path $(a_0, k_0)\to (a_1, k_1)\to \ldots\to (a_m, k_m) \to (a_0, k'_0)$ in $\mathcal{A}$. Since $C^*$ has an increment transition, $k'_0 > k_0$. 
-	Since $C^*$ has no exit state and $k_i$ is bounded above by $N$, this means that there exists a path from $(q_0, 0)$ to $(a_0, k_0)$ to $(a_0, N)$. Then again because $C^*$ has no exit state, $C = (a_0, N)\to (a_1, N)\to \ldots\to (a_m, N) \to (a_0, N)$ is a cycle in $\mathcal{A}$.
-\end{proof}
-
-\begin{lemma}\label{wellformedequiv}
-	If $\mathcal{A}^*$ is well-formed if and only if $\mathcal{A}$ is well-formed.	
-\end{lemma}
-\begin{proof}
-
-	By lemma~\ref{cyclelemma}, there exists a reachable cycle $C = (q_1, n_1)\to\ldots \to (q_m, n_m) \to (q_1, n_1)$ in $\mathcal{A}$ iff $C^* = q_1\to\ldots q_m\to q_1$ is a reachable unbounded feasible cycle in $\mathcal{A}^*$. Further, such a $C$ is a leaking cycle iff there exist indices $0\leq i < j < n$ such that the transition $(q_i, n_i)\to (q_{i+1}, n_{i+1})$ is an assignment transition and $\texttt{guard}((q_j, n_j))$ is not $\texttt{true}$. 
-	By construction, this happens iff the transition $q_i\to q_{i+1}$ in $\mathcal{A}^*$ is also an assignment transition and $\texttt{guard}(q_j)$ in $\mathcal{A}^*$ is not $\texttt{true}$ or $n < N$, so $C^*$ is a leaking cycle. Thus, there exists a reachable leaking cycle in $\mathcal{A}$ iff there exists a reachable unbounded feasible leaking cycle in $\mathcal{A}^*$.
-
-	Suppose that $C = (q_1, n_1)\to\ldots \to (q_m, n_m) \to (q_1, n_1)$ and $C' = (q'_1, n'_1)\to\ldots \to (q'_m, n'_m) \to (q'_1, n'_1)$ are cycles in $\mathcal{A}$ such that $C$ is reachable and $(C, C')$ is a leaking pair in $\mathcal{A}$. By lemma~\ref{cyclelemma}, $C^* = q_1\to\ldots q_m\to q_1$ and $C^{\prime *} = q'_1 \to \ldots q'_m \to q'_1$ are unbounded and feasible cycles in $\mathcal{A}^*$ and $C^*$ is reachable.
-	Without loss of generality, suppose that $C$ is an $\texttt{L}$-cycle and $C'$ is a $\texttt{G}$-cycle. Then by construction, $C^*$ is an $\texttt{L}$-cycle and $C^{\prime *}$ is a $\texttt{G}$-cycle. In addition, there exists some $\texttt{AL}-$path $\rho = (a_1, k_1)\to\ldots \to (a_l, k_l)$ in $\mathcal{A}$ from $C$ to $C'$. By construction, there must exist some $\texttt{AL}-$path $\rho^* = a_1\to\ldots\to a_l$ in $\mathcal{A}^*$ from $C^*$ to $C^{\prime *}$. 
-
-	Note that if there exists a transition with guard $n \geq N$ in $\rho^*$, then $k_l = n$. 
-
-	
-	Observe that if $(q, k)\to (q', k')$ is an assignment transition in $\mathcal{A}$, $q \to q'$ is also an assignment transition in $\mathcal{A}^*$. 
-	Similarly, if a transition $(q, k)\to (q', k')$ has a guard of $\gguard$ (respectively, $\lguard$) in $\mathcal{A}$, $q\to q'$ also has a guard of $\gguard$ (respectively, $\lguard$) in $\mathcal{A}^*$. Together, these mean that leaking cycles, leaking pairs, disclosing cycles, and privacy violating lassos in $\mathcal{A}$ correspond to their feasible unbounded equivalents in $\mathcal{A}^*$.
-
-\end{proof}
 
 \begin{lemma}\label{pathequivalence}
 	Let $\Psi = \{\rho: \rho$ is a path in $\mathcal{A}\}$ and $\Psi^* = \{\rho^*: \rho^*$ is a valid path in $\mathcal{A}^*\}$ be the sets of paths in $\mathcal{A}$ and $\mathcal{A}^*$, respectively. There exists a bijection $f: \Psi\to \Psi^*\times [N]$ such that $\forall x, \forall \rho\in \Psi,$ if $f(\rho) = (\rho^*, n), \PP[\epsilon, x, \rho] = \PP[\epsilon, N, x, n, \rho^*]$.
@@ -564,8 +518,6 @@ For each state $(q, k)\in Q$, let $P((q, k)) = P^*(q)$.
 	Then by Lemma \ref{pathequivalence}, $\PP[\epsilon, N, \rho]=\PP[\epsilon, N, x, 0, \rho^*] = \PP[\epsilon, x, \rho] = \PP[\epsilon, \rho] > e^{d\epsilon}\PP[\epsilon, \rho'] = e^{d\epsilon}\PP[\epsilon, x, \rho'] = e^{d\epsilon}\PP[\epsilon, N, x, 0, \rho^{\prime *}]= e^{d\epsilon}\PP[\epsilon, N, \rho^{\prime *}]$. Thus, $\mathcal{A}^*$ is not $d\epsilon$-DP.
 \end{proof}
 
-Lemmas~\ref{wellformedequiv} and~\ref{dpequiv} together prove the theorem. 
-\end{proof}
 
 \begin{cor}	
 
@@ -574,17 +526,19 @@ Lemmas~\ref{wellformedequiv} and~\ref{dpequiv} together prove the theorem.
 	Let $f(\epsilon, N):\RR\times \NN \to \RR$ be defined as follows:
 
 	Consider the instantiated version of $\mathcal{A}^*$ with parameters $\epsilon$ and $N$. Let $\mathcal{A}$ be the DiPA constructed from $\mathcal{A}^*$ as in Theorem 3.1. $f(\epsilon, N) = wt(\mathcal{A})$.
-	
+
 	Then $\forall \epsilon, f(\epsilon, N)$ grows linearly in $N$.
 \end{cor}
 
+
 \begin{cor}
-	For a DiPA* $\mathcal{A}^*$, the well-formedness of $\mathcal{A}^*$ can be decided efficiently.
+	For a DiPA* $\mathcal{A}^*$, the well-formedness of $\mathcal{A}^*$ can be decided quadratically.
 \end{cor}
 \begin{proof}
-	Note that the time it takes is bounded by the cost of creating a DiPA $\mathcal{A}$ from $\mathcal{A}^*$ as in Theorem 3.1. The construction of $\mathcal{A}$ from $\mathcal{A}^*$ causes the number of states to increase by a factor of $N$. 
-	Each transition in $\mathcal{A}^*$ corresponds to at most $N$ transitions in $\mathcal{A}$. Since the well-formedness of $\mathcal{A}$ and $\mathcal{A}^*$ are equivalent, at most there is a linear increase in the time required to check the well-formedness of $\mathcal{A}^*$ as compared to a DiPA* of the same size.
+	Note that the time it takes is bounded by the cost of constructing a DiPA $\mathcal{A}$ from $\mathcal{A}^*$. The construction of $\mathcal{A}$ from $\mathcal{A}^*$ causes the number of states to increase by a factor of $N$. 
+	Each transition in $\mathcal{A}^*$ corresponds to at most $N$ transitions in $\mathcal{A}$. Since the well-formedness of $\mathcal{A}$ and $\mathcal{A}^*$ are equivalent, at most there is a linear increase in the time required to check the well-formedness of $\mathcal{A}^*$ as compared to a DiPA* of the same size. Since differential privacy for DiPAs can be decided in linear time, this means that differential privacy for DiPA*s can be decided in quadratic time.
 \end{proof}
+
 
 \newpage
 
