@@ -1,6 +1,6 @@
-PWD C:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Counter Extension
+PWD C:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Extensions
 INPUT C:\Users\skyli\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Counter Extension\DiPA Extensions.tex
+INPUT c:\Users\skyli\OneDrive - University of Toronto\Research\DiPA\Extensions\DiPA Extensions.tex
 OUTPUT DiPA Extensions.log
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\skyli\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
